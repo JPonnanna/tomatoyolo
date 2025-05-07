@@ -47,7 +47,7 @@ def predict_image(model, image_path, conf=0.3):
         cv2.rectangle(img, (x_min, y_min), (x_max, y_max), color, 2)
 
         # Put label and confidence
-        label = f"{Tomato} {conf_score:.2f}" if class_name == 'objects' else f"{class_name} {conf_score:.2f}"
+        label = f"Tomato {conf_score:.2f}" if class_name == 'objects' else f"{class_name} {conf_score:.2f}"
         cv2.putText(img, label, (x_min, y_min - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1, cv2.LINE_AA)
     
     # Convert color format for Streamlit display
@@ -119,17 +119,8 @@ if uploaded_file:
     st.success("✅ Classification Complete!")
 
     # Action buttons (one below another)
-    if st.button("Details..."):
-        st.session_state.show_details = not st.session_state.show_details
-
-    if st.button("More..."):
-        st.session_state.show_more = not st.session_state.show_more
-
-    if st.button("About Model"):
-        st.session_state.show_about = not st.session_state.show_about
-
     # Toggle for Details
-    if st.session_state.show_details:
+    with st.expander("🔍 Prediction Details"):
         st.write("### Prediction Details:")
         for box in results[0].boxes:
             cls_id = int(box.cls[0])
@@ -137,14 +128,15 @@ if uploaded_file:
             conf = float(box.conf[0])
             coords = box.xyxy[0].tolist()
             st.write(f"**Class:** {class_name}, **Confidence:** {conf:.2f}, **Box:** {coords}")
-
+    
     # Toggle for More (Blackened image display)
-    if st.session_state.show_more:
+    with st.expander("🖤 More..."):
         st.image(blackened_img, caption="🖤 Blackened Nottomato Image", use_container_width=True)
-
+    
     # About Model and Training Details
-    if st.session_state.show_about:
-        with st.expander("📝 Model Summary"):
-            st.text(model)
-        with st.expander("📊 Training Details"):
-            st.text(model.info)
+    with st.expander("ℹ️ About Model"):
+        st.write("### Model Summary:")
+        st.text(model)
+    
+        st.write("### Training Details:")
+        st.text(model.info)
