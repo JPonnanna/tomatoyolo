@@ -10,8 +10,7 @@ st.set_page_config(page_title="🍅 Tomato Classifier", layout="wide")
 
 def load_model():
         model_path = 'best_tomato_model.pt'  # Update with your model path
-        import torch
-        model = torch.load('best_tomato_model.pt')
+        model = YOLO(model_path)
   # Explicitly load weights
         return model
 
