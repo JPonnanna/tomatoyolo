@@ -140,7 +140,7 @@ import matplotlib.pyplot as plt
 with st.expander("ℹ️ About Model"):
     st.write("### Model Summary:")
     st.text('A YOLO-based Classification Model that can identify Tomato and NotTomato classes')
-    st.text(model.summary())
+    st.code(str(model))
 
 # Training Details
 with st.expander("📊 Training Details"):
