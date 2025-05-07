@@ -134,8 +134,6 @@ if uploaded_file:
         st.image(blackened_img, caption="🖤 Blackened Nottomato Image", use_container_width=True)
     
     # About Model and Training Details
-   import streamlit as st
-import pandas as pd
 import matplotlib.pyplot as plt
 
 # Model Summary
