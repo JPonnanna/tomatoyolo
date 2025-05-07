@@ -2,5 +2,5 @@ streamlit
 opencv-python
 Pillow
 ultralytics==8.0.90   # Update to the latest version
-torch==2.0.1          # Compatible version
+#torch==2.0.1          # Compatible version
 
