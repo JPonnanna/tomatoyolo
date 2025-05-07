@@ -4,7 +4,7 @@ from ultralytics import YOLO
 import tempfile
 from pathlib import Path
 from PIL import Image
-
+import pandas as pd
 st.set_page_config(page_title="🍅 Tomato Classifier", layout="wide")
 
 # Load the model once during app startup
