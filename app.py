@@ -6,13 +6,12 @@ from pathlib import Path
 from PIL import Image
 
 st.set_page_config(page_title="🍅 Tomato Classifier", layout="wide")
-# Load the model once during app startup
 
+# Load the model once during app startup
 def load_model():
-        model_path = 'best_tomato_model.pt'  # Update with your model path
-        model = YOLO(model_path)
-  # Explicitly load weights
-        return model
+    model_path = 'best_tomato_model.pt'  # Update with your model path
+    model = YOLO(model_path)
+    return model
 
 model = load_model()
 
@@ -30,11 +29,6 @@ def blacken_nottomato_bboxes(results, img_path):
             x_min, y_min, x_max, y_max = map(int, coords)
             img[y_min:y_max, x_min:x_max] = [0, 0, 0]
     return img
-
-# Predict and process the image
-
-
-import cv2
 
 # Predict and process the image
 def predict_image(model, image_path, conf=0.3):
@@ -59,10 +53,9 @@ def predict_image(model, image_path, conf=0.3):
     # Convert color format for Streamlit display
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     black = blacken_nottomato_bboxes(results, image_path)
-    return results, img_rgb,black
+    return results, img_rgb, black
 
 # Streamlit app interface
-
 st.title("🍅 Tomato vs. Nottomato Classifier")
 
 # Apply CSS for better design
@@ -111,34 +104,28 @@ if uploaded_file:
 
     # Predict and display results
     st.write("🔍 Classifying the image...")
-    results, blackened_img,pred = predict_image(model, st.session_state.image_path)
+    results, pred, blackened_img = predict_image(model, st.session_state.image_path)
     st.session_state.results = results
     st.session_state.blackened_img = blackened_img
 
-    # Display side by side in columns
+    # Display Original and Predicted images
     col1, col2 = st.columns(2)
     with col1:
-        st.image(st.session_state.image_path, caption="🖼️ Original Image", use_column_width=True)
+        st.image(st.session_state.image_path, caption="🖼️ Original Image", use_container_width=True)
     with col2:
-        st.image(pred, caption="📌 Predicted Image", use_column_width=True)
+        st.image(pred, caption="📌 Predicted Image", use_container_width=True)
 
     st.success("✅ Classification Complete!")
 
-    # Buttons for actions
-    col3, col4, col5 = st.columns(3)
+    # Action buttons (one below another)
+    if st.button("Details..."):
+        st.session_state.show_details = not st.session_state.show_details
 
-    with col3:
-        if st.button("Details..."):
-            st.session_state.show_details = not st.session_state.show_details
+    if st.button("More..."):
+        st.session_state.show_more = not st.session_state.show_more
 
-    with col4:
-        if st.button("More..."):
-            st.session_state.show_more = not st.session_state.show_more
-
-    with col5:
-        if st.button("Reset"):
-            st.session_state.clear()
-            st.experimental_rerun()
+    if st.button("About Model"):
+        st.session_state.show_about = not st.session_state.show_about
 
     # Toggle for Details
     if st.session_state.show_details:
@@ -152,12 +139,9 @@ if uploaded_file:
 
     # Toggle for More (Blackened image display)
     if st.session_state.show_more:
-        st.image(blackened_img, caption="🖤 Blackened Nottomato Image", use_column_width=True)
+        st.image(blackened_img, caption="🖤 Blackened Nottomato Image", use_container_width=True)
 
     # About Model and Training Details
-    if st.button("About Model"):
-        st.session_state.show_about = not st.session_state.show_about
-
     if st.session_state.show_about:
         with st.expander("📝 Model Summary"):
             st.text(model)
