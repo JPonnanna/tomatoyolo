@@ -8,9 +8,13 @@ from PIL import Image
 # Load the model once during app startup
 
 def load_model():
-    model_path = 'best_tomato_model.pt'  # Update with your model path
-    model = YOLO(model_path)
-    return model
+    try:
+        model_path = 'best_tomato_model.pt'  # Update with your model path
+        model = YOLO(model_path, weights_only=False)  # Explicitly load weights
+        return model
+    except Exception as e:
+        st.error(f"Error loading model: {str(e)}")
+        return None
 
 model = load_model()
 
