@@ -134,55 +134,60 @@ if uploaded_file:
         st.image(blackened_img, caption="🖤 Blackened Nottomato Image", use_container_width=True)
     
     # About Model and Training Details
-    with st.expander("ℹ️ About Model"):
-        with st.expander("Model Summary"):
-            st.write("### Model Summary:")
-            st.text('A YOLO based Classification Model that can identify Tomato and NotTomato classes')
-            st.text(model.summary())
-        with st.expander("Training "):
-            st.write("### Training Details:")
-            csv_path = "training.csv" 
-            df = pd.read_csv(csv_path)
-            st.dataframe(df, use_container_width=True)
+   import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
 
-        with st.expander("Vizualizations"):
+# Model Summary
+with st.expander("ℹ️ About Model"):
+    st.write("### Model Summary:")
+    st.text('A YOLO-based Classification Model that can identify Tomato and NotTomato classes')
+    st.text(model.summary())
+
+# Training Details
+with st.expander("📊 Training Details"):
+    st.write("### Training Data:")
+    csv_path = "training.csv" 
+    df = pd.read_csv(csv_path)
+    st.dataframe(df, use_container_width=True)
+
+# Visualizations
+with st.expander("📈 Visualizations"):
+    csv_path = "training.csv" 
+    data = pd.read_csv(csv_path)
+    loss_columns = ['cls_loss', 'box_loss', 'dfl_loss']
+
+    # Plot loss over epochs
+    st.subheader("Loss Over Epochs")
+    fig, ax = plt.subplots(figsize=(10, 6))
+    for col in loss_columns:
+        ax.plot(data['epoch'], data[col], label=col)
         
-            csv_path = "training.csv" 
-            data = pd.read_csv(csv_path)
-            loss_columns = ['cls_loss', 'box_loss', 'dfl_loss']
-            
-            # Plot loss over epochs
-            st.subheader("Loss Over Epochs")
-            fig, ax = plt.subplots(figsize=(10, 6))
-            for col in loss_columns:
-                ax.plot(data['epoch'], data[col], label=col)
-                
-            ax.set_xlabel('Epoch')
-            ax.set_ylabel('Loss')
-            ax.set_title('Loss Over Epochs')
-            ax.legend()
-            st.pyplot(fig)
-            
-            # Precision, Recall, mAP Visualizations
-            st.subheader("Precision, Recall, mAP Visualizations")
-            
-            # Plot Precision and Recall over epochs
-            fig, ax = plt.subplots(figsize=(10, 6))
-            ax.plot(data['epoch'], data['Precision'], label='Precision', color='blue')
-            ax.plot(data['epoch'], data['Recall'], label='Recall', color='green')
-            ax.set_xlabel('Epoch')
-            ax.set_ylabel('Value')
-            ax.set_title('Precision & Recall Over Epochs')
-            ax.legend()
-            st.pyplot(fig)
-            
-            # Plot mAP50 and mAP50-95 over epochs
-            fig, ax = plt.subplots(figsize=(10, 6))
-            ax.plot(data['epoch'], data['mAP50'], label='mAP50', color='orange')
-            ax.plot(data['epoch'], data['mAP50-95'], label='mAP50-95', color='red')
-            ax.set_xlabel('Epoch')
-            ax.set_ylabel('Value')
-            ax.set_title('mAP50 & mAP50-95 Over Epochs')
-            ax.legend()
-            st.pyplot(fig)
-
+    ax.set_xlabel('Epoch')
+    ax.set_ylabel('Loss')
+    ax.set_title('Loss Over Epochs')
+    ax.legend()
+    st.pyplot(fig)
+    
+    # Precision, Recall, mAP Visualizations
+    st.subheader("Precision, Recall, mAP Visualizations")
+    
+    # Plot Precision and Recall over epochs
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.plot(data['epoch'], data['Precision'], label='Precision', color='blue')
+    ax.plot(data['epoch'], data['Recall'], label='Recall', color='green')
+    ax.set_xlabel('Epoch')
+    ax.set_ylabel('Value')
+    ax.set_title('Precision & Recall Over Epochs')
+    ax.legend()
+    st.pyplot(fig)
+    
+    # Plot mAP50 and mAP50-95 over epochs
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.plot(data['epoch'], data['mAP50'], label='mAP50', color='orange')
+    ax.plot(data['epoch'], data['mAP50-95'], label='mAP50-95', color='red')
+    ax.set_xlabel('Epoch')
+    ax.set_ylabel('Value')
+    ax.set_title('mAP50 & mAP50-95 Over Epochs')
+    ax.legend()
+    st.pyplot(fig)
