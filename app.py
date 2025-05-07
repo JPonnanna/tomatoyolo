@@ -5,16 +5,13 @@ import tempfile
 from pathlib import Path
 from PIL import Image
 
+st.set_page_config(page_title="🍅 Tomato Classifier", layout="wide")
 # Load the model once during app startup
 
 def load_model():
-    try:
         model_path = 'best_tomato_model.pt'  # Update with your model path
-        model = YOLO(model_path, weights_only=False)  # Explicitly load weights
+        model = YOLO(model_path)  # Explicitly load weights
         return model
-    except Exception as e:
-        st.error(f"Error loading model: {str(e)}")
-        return None
 
 model = load_model()
 
@@ -40,7 +37,7 @@ def predict_image(model, image_path, conf=0.3):
     return results, black
 
 # Streamlit app interface
-st.set_page_config(page_title="🍅 Tomato Classifier", layout="wide")
+
 st.title("🍅 Tomato vs. Nottomato Classifier")
 
 # Apply CSS for better design
