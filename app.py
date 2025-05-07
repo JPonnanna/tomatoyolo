@@ -32,10 +32,34 @@ def blacken_nottomato_bboxes(results, img_path):
     return img
 
 # Predict and process the image
+
+
+import cv2
+
+# Predict and process the image
 def predict_image(model, image_path, conf=0.3):
     results = model.predict(source=image_path, conf=conf, save=False)
+    img = cv2.imread(image_path)
+    
+    for box in results[0].boxes:
+        cls_id = int(box.cls[0])
+        class_name = model.names[cls_id]
+        conf_score = float(box.conf[0])
+        coords = box.xyxy[0].tolist()
+        x_min, y_min, x_max, y_max = map(int, coords)
+
+        # Draw bounding box
+        color = (0, 255, 255) if class_name == 'objects' else (255, 0, 0)
+        cv2.rectangle(img, (x_min, y_min), (x_max, y_max), color, 2)
+
+        # Put label and confidence
+        label = f"{class_name} {conf_score:.2f}"
+        cv2.putText(img, label, (x_min, y_min - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1, cv2.LINE_AA)
+    
+    # Convert color format for Streamlit display
+    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     black = blacken_nottomato_bboxes(results, image_path)
-    return results, black
+    return results, img_rgb,black
 
 # Streamlit app interface
 
@@ -87,7 +111,7 @@ if uploaded_file:
 
     # Predict and display results
     st.write("🔍 Classifying the image...")
-    results, blackened_img = predict_image(model, st.session_state.image_path)
+    results, blackened_img,pred = predict_image(model, st.session_state.image_path)
     st.session_state.results = results
     st.session_state.blackened_img = blackened_img
 
@@ -96,7 +120,7 @@ if uploaded_file:
     with col1:
         st.image(st.session_state.image_path, caption="🖼️ Original Image", use_column_width=True)
     with col2:
-        st.image(blackened_img, caption="📌 Predicted Image", use_column_width=True)
+        st.image(pred, caption="📌 Predicted Image", use_column_width=True)
 
     st.success("✅ Classification Complete!")
 
