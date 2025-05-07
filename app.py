@@ -6,7 +6,7 @@ from pathlib import Path
 from PIL import Image
 
 # Load the model once during app startup
-@st.cache_resource
+
 def load_model():
     model_path = 'best_tomato_model.pt'  # Update with your model path
     model = YOLO(model_path)
