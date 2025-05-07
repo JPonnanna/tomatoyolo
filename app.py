@@ -47,12 +47,13 @@ def predict_image(model, image_path, conf=0.3):
         cv2.rectangle(img, (x_min, y_min), (x_max, y_max), color, 2)
 
         # Put label and confidence
-        label = f"{class_name} {conf_score:.2f}"
+        label = f"{Tomato} {conf_score:.2f}" if class_name == 'objects' else f"{class_name} {conf_score:.2f}"
         cv2.putText(img, label, (x_min, y_min - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1, cv2.LINE_AA)
     
     # Convert color format for Streamlit display
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     black = blacken_nottomato_bboxes(results, image_path)
+    black= cv2.cvtColor(black, cv2.COLOR_BGR2RGB)
     return results, img_rgb, black
 
 # Streamlit app interface
