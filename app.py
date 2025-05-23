@@ -131,7 +131,7 @@ if uploaded_file:
             st.write(f"**Class:** {class_name}, **Confidence:** {conf:.2f}, **Box:** {coords}")
             if class_name == "objects":
                 objects_count += 1
-        st.write(f"### Total tomatoes detected: **{objects_count}**")
+        st.write(f"### Total tomatoes detected (Conf>30%): **{objects_count}**")
     
     # Toggle for More (Blackened image display)
     with st.expander("🖤 More..."):
