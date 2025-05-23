@@ -122,12 +122,16 @@ if uploaded_file:
     # Toggle for Details
     with st.expander("🔍 Prediction Details"):
         st.write("### Prediction Details:")
+        objects_count = 0
         for box in results[0].boxes:
             cls_id = int(box.cls[0])
             class_name = model.names[cls_id]
             conf = float(box.conf[0])
             coords = box.xyxy[0].tolist()
             st.write(f"**Class:** {class_name}, **Confidence:** {conf:.2f}, **Box:** {coords}")
+            if class_name == "objects":
+            objects_count += 1
+        st.write(f"### Total tomatoes detected: **{objects_count}**")
     
     # Toggle for More (Blackened image display)
     with st.expander("🖤 More..."):
