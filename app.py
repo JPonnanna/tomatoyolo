@@ -153,6 +153,15 @@ with st.expander("📊 Training Details"):
     df = pd.read_csv(csv_path)
     st.dataframe(df, use_container_width=True)
 
+    #import streamlit as st
+
+    st.header("Test Set Evaluation Metrics")
+    st.metric("Precision", "74.3%")
+    st.metric("Recall", "67.4%")
+    st.metric("mAP@0.5", "73.1%")
+    
+
+
 # Visualizations
 with st.expander("📈 Visualizations"):
     csv_path = "training.csv" 
