@@ -181,7 +181,7 @@ with st.expander("📈 Visualizations"):
     st.pyplot(fig)
     
     # Precision, Recall, mAP Visualizations
-    st.subheader("Precision, Recall, mAP Visualizations")
+    st.subheader("Precision, Recall Visualizations")
     
     # Plot Precision and Recall over epochs
     fig, ax = plt.subplots(figsize=(10, 6))
@@ -194,11 +194,11 @@ with st.expander("📈 Visualizations"):
     st.pyplot(fig)
     
     # Plot mAP50 and mAP50-95 over epochs
-    fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(data['epoch'], data['mAP50'], label='mAP50', color='orange')
-    ax.plot(data['epoch'], data['mAP50-95'], label='mAP50-95', color='red')
-    ax.set_xlabel('Epoch')
-    ax.set_ylabel('Value')
-    ax.set_title('mAP50 & mAP50-95 Over Epochs')
-    ax.legend()
-    st.pyplot(fig)
+    # fig, ax = plt.subplots(figsize=(10, 6))
+    # ax.plot(data['epoch'], data['mAP50'], label='mAP50', color='orange')
+    # ax.plot(data['epoch'], data['mAP50-95'], label='mAP50-95', color='red')
+    # ax.set_xlabel('Epoch')
+    # ax.set_ylabel('Value')
+    # ax.set_title('mAP50 & mAP50-95 Over Epochs')
+    # ax.legend()
+    # st.pyplot(fig)
