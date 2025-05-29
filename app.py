@@ -155,10 +155,10 @@ with st.expander("📊 Training Details"):
 
     #import streamlit as st
 
-    st.header("Test Set Evaluation Metrics")
-    st.metric("Precision", "74.3%")
-    st.metric("Recall", "67.4%")
-    st.metric("mAP@0.5", "73.1%")
+    # st.header("Test Set Evaluation Metrics")
+    # st.metric("Precision", "74.3%")
+    # st.metric("Recall", "67.4%")
+    # st.metric("mAP@0.5", "73.1%")
     
 
 
